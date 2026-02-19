@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="29.4.0">
+  <diagram name="ER-Planica" id="u0HbbxKKeFNwssHBlcrl">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CvQlazlpj0zvMjsWC3Mv-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="DRZAVA&lt;br&gt;-------------------&lt;br&gt;- PK drzava_id&lt;br&gt;- ime_drzave" vertex="1">
+          <mxGeometry height="120" width="200" x="80" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="CvQlazlpj0zvMjsWC3Mv-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="SKAKALEC&lt;br&gt;-------------------&lt;br&gt;- PK skakalec_id&lt;br&gt;- ime&lt;br&gt;- priimek&lt;br&gt;- FK drzava_id" vertex="1">
+          <mxGeometry height="160" width="220" x="410" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="CvQlazlpj0zvMjsWC3Mv-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="TEKMA&lt;br&gt;-------------------&lt;br&gt;- PK tekma_id&lt;br&gt;- leto" vertex="1">
+          <mxGeometry height="100" width="200" x="30" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="CvQlazlpj0zvMjsWC3Mv-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="REZULTATI&lt;br&gt;-------------------&lt;br&gt;- PK rezultati_id&lt;br&gt;- FK skakalec_id&lt;br&gt;- FK tekma_id&lt;br&gt;- dolzina1&lt;br&gt;- dolzina2&lt;br&gt;- mesto" vertex="1">
+          <mxGeometry height="180" width="240" x="400" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="CvQlazlpj0zvMjsWC3Mv-6" edge="1" parent="1" source="CvQlazlpj0zvMjsWC3Mv-2" style="endArrow=block;html=1;" target="CvQlazlpj0zvMjsWC3Mv-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CvQlazlpj0zvMjsWC3Mv-7" edge="1" parent="1" source="CvQlazlpj0zvMjsWC3Mv-3" style="endArrow=block;html=1;" target="CvQlazlpj0zvMjsWC3Mv-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CvQlazlpj0zvMjsWC3Mv-8" edge="1" parent="1" source="CvQlazlpj0zvMjsWC3Mv-4" style="endArrow=block;html=1;" target="CvQlazlpj0zvMjsWC3Mv-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

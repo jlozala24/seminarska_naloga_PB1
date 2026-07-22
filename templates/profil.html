@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profil tekmovalca
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+<h2>Profil tekmovalca</h2>
+
+<form method="POST">
+
+<label>Ime:</label>
+<input name="ime" required>
+
+<label>Priimek:</label>
+<input name="priimek" required>
+
+<br><br>
+
+<button>
+Prikaži profil
+</button>
+
+</form>
+
+{% if sporocilo %}
+
+<div class="card">
+
+<p>{{ sporocilo }}</p>
+
+</div>
+
+{% endif %}
+
+</div>
+
+
+{% if rezultati %}
+
+<div class="card profil">
+
+<img
+class="slika-tekmovalca"
+src="{{ url_for(
+'static',
+filename='slike/' +
+rezultati[0]["ime"]|lower|replace(' ','_')
++ '_'
++ rezultati[0]["priimek"]|lower|replace(' ','_')
++ '.jpg'
+) }}"
+
+alt="{{ rezultati[0]['ime'] }} {{ rezultati[0]['priimek'] }}">
+
+
+<h2>
+
+{{ rezultati[0]["ime"] }}
+{{ rezultati[0]["priimek"] }}
+
+</h2>
+
+<p>
+
+<strong>Država:</strong>
+{{ rezultati[0]["drzava"] }}
+
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Vsi nastopi v Planici</h3>
+
+<table>
+
+<tr>
+
+<th>Leto</th>
+<th>Mesto</th>
+<th>1. skok</th>
+<th>2. skok</th>
+
+</tr>
+
+{% for r in rezultati %}
+
+<tr>
+
+<td>{{ r["leto"] }}</td>
+<td>{{ r["mesto"] }}</td>
+<td>{{ r["skok_1"] }} m</td>
+<td>{{ r["skok_2"] }} m</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

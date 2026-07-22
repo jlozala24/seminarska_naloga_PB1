@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}
+Iskanje rezultatov
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+<h1>Iskanje rezultatov</h1>
+
+<p>
+Izberi leto tekmovanja in vnesi ime ter priimek tekmovalca.
+</p>
+
+<form method="POST">
+
+<p><strong>Leto:</strong></p>
+
+<select name="leto" required>
+
+<option value="">Izberi leto</option>
+
+<option>2015</option>
+<option>2016</option>
+<option>2017</option>
+<option>2018</option>
+<option>2019</option>
+<option>2021</option>
+<option>2022</option>
+<option>2023</option>
+<option>2024</option>
+<option>2025</option>
+
+</select>
+
+<br><br>
+
+<p><strong>Ime:</strong></p>
+
+<input
+type="text"
+name="ime"
+placeholder="Ime tekmovalca"
+required>
+
+<br><br>
+
+<p><strong>Priimek:</strong></p>
+
+<input
+type="text"
+name="priimek"
+placeholder="Priimek tekmovalca"
+required>
+
+<br><br>
+
+<button type="submit">
+Poišči rezultat
+</button>
+
+</form>
+
+</div>
+
+
+{% if rezultat %}
+
+<div class="card">
+
+<h2>Rezultat</h2>
+
+<table>
+
+<tr>
+
+<th>Mesto</th>
+<th>Ime</th>
+<th>Priimek</th>
+<th>Država</th>
+<th>1. skok</th>
+<th>2. skok</th>
+
+</tr>
+
+<tr>
+
+<td>{{ rezultat["mesto"] }}</td>
+<td>{{ rezultat["ime"] }}</td>
+<td>{{ rezultat["priimek"] }}</td>
+<td>{{ rezultat["drzava"] }}</td>
+<td>{{ rezultat["skok_1"] }} m</td>
+<td>{{ rezultat["skok_2"] }} m</td>
+
+</tr>
+
+</table>
+
+</div>
+
+{% elif rezultat is not none %}
+
+<div class="card">
+
+<h2>Rezultat ni bil najden</h2>
+
+<p>
+Tekmovalec v izbranem letu ni nastopal oziroma ga ni v bazi podatkov.
+</p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}
+Lestvica
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+<h1>Lestvica tekmovanja</h1>
+
+<p>
+Izberi leto tekmovanja in prikaži končno razvrstitev.
+</p>
+
+<form method="POST">
+
+<p><strong>Leto:</strong></p>
+
+<select name="leto" required>
+
+<option value="">Izberi leto</option>
+
+<option>2015</option>
+<option>2016</option>
+<option>2017</option>
+<option>2018</option>
+<option>2019</option>
+<option>2021</option>
+<option>2022</option>
+<option>2023</option>
+<option>2024</option>
+<option>2025</option>
+
+</select>
+
+<br><br>
+
+<button type="submit">
+Prikaži lestvico
+</button>
+
+</form>
+
+</div>
+
+
+{% if rezultati %}
+
+<div class="card">
+
+<h2>
+Lestvica za leto {{ leto }}
+</h2>
+
+<table>
+
+<tr>
+
+<th>Mesto</th>
+<th>Ime</th>
+<th>Priimek</th>
+<th>Država</th>
+<th>1. skok</th>
+<th>2. skok</th>
+
+</tr>
+
+{% for r in rezultati %}
+
+<tr>
+
+<td>{{ r["mesto"] }}</td>
+
+<td>{{ r["ime"] }}</td>
+
+<td>{{ r["priimek"] }}</td>
+
+<td>{{ r["drzava"] }}</td>
+
+<td>{{ r["skok_1"] }} m</td>
+
+<td>{{ r["skok_2"] }} m</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

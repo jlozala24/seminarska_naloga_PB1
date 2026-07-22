@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Tekmovalci po državi
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<h2>Tekmovalci izbrane države</h2>
+
+
+<form method="POST">
+
+<label>Država:</label>
+
+<input name="drzava">
+
+
+<button>
+Prikaži
+</button>
+
+
+</form>
+
+
+
+{% if tekmovalci %}
+
+
+<table>
+
+
+<tr>
+
+<th>Ime</th>
+<th>Priimek</th>
+<th>Država</th>
+
+</tr>
+
+
+
+{% for t in tekmovalci %}
+
+
+<tr>
+
+<td>{{ t["ime"] }}</td>
+
+<td>{{ t["priimek"] }}</td>
+
+<td>{{ t["drzava"] }}</td>
+
+
+</tr>
+
+
+{% endfor %}
+
+
+
+</table>
+
+
+
+{% endif %}
+
+
+
+{% endblock %}

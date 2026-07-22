@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Registracija
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<h2>Registracija uporabnika</h2>
+
+
+<form method="POST">
+
+
+<label>
+Uporabniško ime:
+</label>
+
+<input 
+type="text"
+name="uporabnisko_ime"
+required>
+
+
+<br><br>
+
+
+<label>
+Geslo:
+</label>
+
+<input
+type="password"
+name="geslo"
+required>
+
+
+<br><br>
+
+
+<button>
+Registriraj se
+</button>
+
+
+</form>
+
+
+{% if sporocilo %}
+
+<p>
+{{ sporocilo }}
+</p>
+
+{% endif %}
+
+
+
+{% endblock %}

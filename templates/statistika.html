@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}
+Statistika
+{% endblock %}
+
+{% block content %}
+
+<h2>Statistika tekmovalca</h2>
+
+<form method="POST">
+
+<label>Ime:</label>
+<input name="ime" required>
+
+<label>Priimek:</label>
+<input name="priimek" required>
+
+<button>
+Izračunaj
+</button>
+
+</form>
+
+<!-- TO DODAJ -->
+{% if sporocilo %}
+
+<div class="card">
+    <p>{{ sporocilo }}</p>
+</div>
+
+{% endif %}
+
+{% if rezultat and rezultat[0] > 0 %}
+
+<div class="card">
+
+<h3>Rezultat</h3>
+
+<p>
+Število nastopov:
+{{ rezultat[0] }}
+</p>
+
+<p>
+Najboljša uvrstitev:
+{{ rezultat[1] }}
+</p>
+
+<p>
+Povprečna uvrstitev:
+{{ "%.2f"|format(rezultat[2]) }}
+</p>
+
+</div>
+
+{% endif %}
+{% if graf %}
+
+<h3>Uvrstitve skozi leta</h3>
+
+<canvas id="graf"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+let leta = [
+{% for g in graf %}
+{{ g["leto"] }},
+{% endfor %}
+];
+
+
+let mesta = [
+{% for g in graf %}
+{{ g["mesto"] }},
+{% endfor %}
+];
+
+
+new Chart(
+document.getElementById("graf"),
+{
+
+type: "line",
+data: {
+labels: leta,
+datasets: [
+
+{
+
+label: "Uvrstitev",
+data: mesta,
+borderWidth: 3
+
+}
+]
+},
+
+options: {
+scales: {
+y: {
+
+reverse: true,
+
+beginAtZero: false
+}
+}
+}
+}
+);
+
+</script>
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Forum
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<h2>Forum Planica</h2>
+
+
+<p>
+Prijavljen uporabnik:
+{{ session["uporabnisko_ime"] }}
+</p>
+
+
+<form method="POST">
+
+<textarea 
+name="vsebina"
+rows="5"
+cols="50"
+placeholder="Napiši komentar..."
+required>
+</textarea>
+
+
+<br><br>
+
+
+<button>
+Objavi
+</button>
+
+
+</form>
+
+
+{% if sporocilo %}
+
+<p>
+{{ sporocilo }}
+</p>
+
+{% endif %}
+
+
+
+<hr>
+
+
+
+<h3>Komentarji</h3>
+
+
+
+{% for k in komentarji %}
+
+
+<div>
+
+<strong>
+{{ k["uporabnisko_ime"] }}
+</strong>
+
+
+<p>
+{{ k["vsebina"] }}
+</p>
+
+
+<small>
+{{ k["datum"] }}
+</small>
+
+
+</div>
+
+
+<hr>
+
+
+{% endfor %}
+
+
+
+{% endblock %}

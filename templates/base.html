@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="sl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        {% block title %}
+        Planica rezultati
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+
+<body>
+
+<header>
+
+<nav>
+
+    <a href="/">Domov</a>
+    <a href="/iskanje">Iskanje rezultatov</a>
+    <a href="/lestvica">Lestvica</a>
+    <a href="/profil">Profil tekmovalca</a>
+    <a href="/statistika">Statistika</a>
+    <a href="/drzava">Države</a>
+    <a href="/zmagovalci">Zmagovalci</a>
+    
+    {% if session.get("uporabnik_id") %}
+    
+    <a href="/forum">Forum</a>
+    <a href="/odjava">Odjava</a>
+    
+    {% else %}
+    
+    <a href="/registracija">Registracija</a>
+    <a href="/prijava">Prijava</a>
+    
+    {% endif %}
+    
+    </nav>
+
+</header>
+
+<hr>
+
+<main>
+
+{% block content %}
+
+{% endblock %}
+
+</main>
+
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Prijava
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<h2>Prijava uporabnika</h2>
+
+
+<form method="POST">
+
+
+<label>
+Uporabniško ime:
+</label>
+
+<input 
+name="uporabnisko_ime"
+required>
+
+
+<br><br>
+
+
+<label>
+Geslo:
+</label>
+
+<input 
+type="password"
+name="geslo"
+required>
+
+
+<br><br>
+
+
+<button>
+Prijava
+</button>
+
+
+</form>
+
+
+
+{% if sporocilo %}
+
+<p>
+{{ sporocilo }}
+</p>
+
+{% endif %}
+
+
+
+{% endblock %}

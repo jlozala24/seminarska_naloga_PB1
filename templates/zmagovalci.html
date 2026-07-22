@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Zmagovalci Planice
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<h2>Zmagovalci Planice</h2>
+
+
+
+<table>
+
+
+<tr>
+
+<th>Leto</th>
+<th>Zmagovalec</th>
+<th>Država</th>
+
+</tr>
+
+
+
+{% for z in rezultat %}
+
+
+<tr>
+
+<td>
+{{ z["leto"] }}
+</td>
+
+
+<td>
+{{ z["ime"] }} {{ z["priimek"] }}
+</td>
+
+
+<td>
+{{ z["drzava"] }}
+</td>
+
+
+</tr>
+
+
+
+{% endfor %}
+
+
+
+</table>
+
+
+
+{% endblock %}

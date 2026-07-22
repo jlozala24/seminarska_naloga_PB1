@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Planica
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="hero">
+
+    <img src="{{ url_for('static', filename='slike/planica.jpg') }}">
+
+    <div class="hero-text">
+        <h1>
+            Planica
+        </h1>
+        <p>
+            Dom smučarskih skokov in poletov
+        </p>
+    </div>
+
+
+</div>
+
+<div class="card">
+
+<h2>
+Zgodovina Planice
+</h2>
+
+<p>
+Planica je ena najbolj znanih dolin v svetu smučarskih skokov.
+Prve večje skakalne prireditve so se začele v začetku 20. stoletja,
+danes pa Planica velja za eno najpomembnejših prizorišč
+svetovnega pokala v smučarskih skokih.
+</p>
+
+<p>
+Na letalnici bratov Gorišek so bili postavljeni številni svetovni
+rekordi v dolžini poletov. Vsako leto se najboljši skakalci sveta
+zberejo v Planici na zaključku sezone.
+</p>
+
+</div>
+
+<div class="card">
+<h2>
+Kaj lahko najdete na strani?
+</h2>
+<ul>
+
+<li>Rezultate moških smučarskih skokov od leta 2015 naprej</li>
+<li>Statistiko in profile posameznih tekmovalcev</li>
+<li>Lestvice posameznih let</li>
+<li>Vse tekmovalce, ki so zastopali posamezno državo v Planici</li>
+<li>Forum za ljubitelje skokov</li>
+
+</ul>
+
+
+</div>
+
+
+
+<div class="center">
+
+<a href="/iskanje">
+
+<button>
+Poišči rezultate
+</button>
+
+</a>
+
+</div>
+
+
+
+{% endblock %}

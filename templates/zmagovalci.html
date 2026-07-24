@@ -33,17 +33,32 @@ Zmagovalci Planice
 <tr>
 
 <td>
+<a
+class="povezava-v-tabeli"
+href="{{ url_for('stran_lestvica', leto=z['leto']) }}"
+>
 {{ z["leto"] }}
+</a>
 </td>
 
 
 <td>
+<a
+class="povezava-v-tabeli"
+href="{{ url_for('profil', tekmovalec_id=z['tekmovalec_id']) }}"
+>
 {{ z["ime"] }} {{ z["priimek"] }}
+</a>
 </td>
 
 
 <td>
+<a
+class="povezava-v-tabeli"
+href="{{ url_for('drzava', drzava=z['drzava']) }}"
+>
 {{ z["drzava"] }}
+</a>
 </td>
 
 

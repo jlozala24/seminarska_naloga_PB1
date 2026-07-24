@@ -8,13 +8,20 @@ Statistika
 
 <h2>Statistika tekmovalca</h2>
 
-<form method="POST">
+<form method="GET">
 
-<label>Ime:</label>
-<input name="ime" required>
-
-<label>Priimek:</label>
-<input name="priimek" required>
+<label for="tekmovalec_id">Ime in priimek:</label>
+<select id="tekmovalec_id" name="tekmovalec_id" required>
+<option value="">Izberi tekmovalca</option>
+{% for tekmovalec in tekmovalci %}
+<option
+value="{{ tekmovalec['id'] }}"
+{% if izbrani_tekmovalec_id == tekmovalec["id"] %}selected{% endif %}
+>
+{{ tekmovalec["ime"] }} {{ tekmovalec["priimek"] }}
+</option>
+{% endfor %}
+</select>
 
 <button>
 Izračunaj

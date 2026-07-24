@@ -27,6 +27,7 @@ def lestvica(leto):
     cur.execute("""
     SELECT
         r.mesto,
+        t.id AS tekmovalec_id,
         t.ime,
         t.priimek,
         t.drzava,
@@ -51,14 +52,62 @@ def lestvica(leto):
     return rezultati
 
 
-# Funkcija, ki preko SQL naredi poizvedbo o vseh skokih v planici za izbranega tekmovalca
-def profil_tekmovalca(ime, priimek):
+# Funkcija vrne vse vrednosti za spustne sezname
+def moznosti_izbire():
+
+    conn = povezava_baza()
+    cur = conn.cursor()
+
+    cur.execute("SELECT DISTINCT leto FROM rezultati ORDER BY leto")
+    leta = [vrstica[0] for vrstica in cur.fetchall()]
+
+    cur.execute("""
+    SELECT id, ime, priimek, drzava
+    FROM tekmovalci
+    ORDER BY priimek, ime
+    """)
+    tekmovalci = cur.fetchall()
+
+    cur.execute("SELECT DISTINCT drzava FROM tekmovalci ORDER BY drzava")
+    drzave = [vrstica[0] for vrstica in cur.fetchall()]
+
+    conn.close()
+
+    return {
+        "leta": leta,
+        "tekmovalci": tekmovalci,
+        "drzave": drzave
+    }
+
+
+# Funkcija vrne izbranega tekmovalca
+def tekmovalec_po_id(tekmovalec_id):
 
     conn = povezava_baza()
     cur = conn.cursor()
 
     cur.execute("""
+    SELECT id, ime, priimek, drzava
+    FROM tekmovalci
+    WHERE id = ?
+    """, (tekmovalec_id,))
+
+    tekmovalec = cur.fetchone()
+
+    conn.close()
+
+    return tekmovalec
+
+
+# Funkcija, ki preko SQL naredi poizvedbo o vseh skokih v planici za izbranega tekmovalca
+def profil_tekmovalca(tekmovalec_id=None, ime=None, priimek=None):
+
+    conn = povezava_baza()
+    cur = conn.cursor()
+
+    poizvedba = """
     SELECT
+        t.id AS tekmovalec_id,
         t.ime,
         t.priimek,
         t.drzava,
@@ -72,13 +121,21 @@ def profil_tekmovalca(ime, priimek):
     JOIN tekmovalci t
     ON r.tekmovalec_id=t.id
 
-    WHERE LOWER(t.ime)=LOWER(?)
-    AND LOWER(t.priimek)=LOWER(?)
+    """
 
-    ORDER BY r.leto
+    if tekmovalec_id is not None:
+        poizvedba += " WHERE t.id = ?"
+        parametri = (tekmovalec_id,)
+    else:
+        poizvedba += """
+        WHERE LOWER(t.ime)=LOWER(?)
+        AND LOWER(t.priimek)=LOWER(?)
+        """
+        parametri = (ime, priimek)
 
-    """, (ime, priimek))
+    poizvedba += " ORDER BY r.leto"
 
+    cur.execute(poizvedba, parametri)
 
     podatki = cur.fetchall()
 
@@ -155,6 +212,7 @@ def tekmovalci_drzava(drzava):
 
     cur.execute("""
     SELECT DISTINCT
+        id AS tekmovalec_id,
         ime,
         priimek,
         drzava
@@ -184,6 +242,7 @@ def zmagovalci():
     cur.execute("""
     SELECT
         r.leto,
+        t.id AS tekmovalec_id,
         t.ime,
         t.priimek,
         t.drzava
@@ -250,12 +309,13 @@ def domov():
 def iskanje():
 
     rezultat = None
+    iskano = False
+    moznosti = moznosti_izbire()
+    leto = request.values.get("leto", "")
+    tekmovalec_id = request.values.get("tekmovalec_id", type=int)
 
-    if request.method == "POST":
-
-        leto = request.form["leto"]
-        ime = request.form["ime"]
-        priimek = request.form["priimek"]
+    if leto and tekmovalec_id is not None:
+        iskano = True
 
         conn = povezava_baza()
         cur = conn.cursor()
@@ -275,10 +335,9 @@ def iskanje():
         ON r.tekmovalec_id = t.id
 
         WHERE r.leto = ?
-        AND LOWER(t.ime)=LOWER(?)
-        AND LOWER(t.priimek)=LOWER(?)
+        AND t.id = ?
 
-        """, (leto, ime, priimek))
+        """, (leto, tekmovalec_id))
 
 
         rezultat = cur.fetchone()
@@ -288,7 +347,11 @@ def iskanje():
 
     return render_template(
         "iskanje.html",
-        rezultat=rezultat
+        rezultat=rezultat,
+        iskano=iskano,
+        izbrano_leto=leto,
+        izbrani_tekmovalec_id=tekmovalec_id,
+        **moznosti
     )
 
 
@@ -297,47 +360,52 @@ def iskanje():
 def stran_lestvica():
 
     rezultati = None
-    leto = None
+    moznosti = moznosti_izbire()
+    leto = request.values.get("leto")
 
-    if request.method == "POST":
-
-        leto = request.form["leto"]
-
+    if leto:
         rezultati = lestvica(leto)
 
 
     return render_template(
         "lestvica.html",
         rezultati=rezultati,
-        leto=leto
+        leto=leto,
+        **moznosti
     )
     
     
 # profil - meni 
-@app.route("/profil", methods=["GET","POST"])
+@app.route("/profil", methods=["GET", "POST"])
 def profil():
 
     rezultati = None
-    ime = ""
-    priimek = ""
     sporocilo = ""
+    moznosti = moznosti_izbire()
+    tekmovalec_id = request.values.get("tekmovalec_id", type=int)
+    ime = request.values.get("ime", "").strip()
+    priimek = request.values.get("priimek", "").strip()
 
-    if request.method == "POST":
-
-        ime = request.form["ime"]
-        priimek = request.form["priimek"]
-
-        rezultati = profil_tekmovalca(ime, priimek)
+    if tekmovalec_id is not None:
+        rezultati = profil_tekmovalca(tekmovalec_id=tekmovalec_id)
+        if rezultati:
+            ime = rezultati[0]["ime"]
+            priimek = rezultati[0]["priimek"]
+    elif ime and priimek:
+        # Podpora za stare povezave in obrazce z imenom ter priimkom.
+        rezultati = profil_tekmovalca(ime=ime, priimek=priimek)
         
+    if tekmovalec_id is not None or (ime and priimek):
         if len(rezultati) == 0:
-            sporocilo = f"{ime} {priimek} ni nastopal v Planici med letoma 2015 in 2025."
+            sporocilo = "Izbrani tekmovalec ni nastopal v Planici med letoma 2015 in 2025."
 
 
     return render_template(
         "profil.html",
         rezultati=rezultati,
-        ime=ime,
-        priimek=priimek
+        sporocilo=sporocilo,
+        izbrani_tekmovalec_id=tekmovalec_id,
+        **moznosti
     )
     
 
@@ -346,25 +414,33 @@ def profil():
 def stran_statistika():
 
     sporocilo = ""
-    rezultat=None
-    graf=None
+    rezultat = None
+    graf = None
+    moznosti = moznosti_izbire()
+    tekmovalec_id = request.values.get("tekmovalec_id", type=int)
 
-    if request.method=="POST":
+    if tekmovalec_id is not None:
+        tekmovalec = tekmovalec_po_id(tekmovalec_id)
 
-        ime=request.form["ime"]
-        priimek=request.form["priimek"]
+        if tekmovalec:
+            ime = tekmovalec["ime"]
+            priimek = tekmovalec["priimek"]
+            rezultat = statistika(ime, priimek)
+            graf = podatki_graf(ime, priimek)
+        else:
+            rezultat = (0, None, None)
 
-        rezultat=statistika(ime,priimek)
         if rezultat[0] == 0:
-            sporocilo = f"{ime} {priimek} ni nastopal v Planici med letoma 2015 in 2025."
-        graf=podatki_graf(ime,priimek)
+            sporocilo = "Izbrani tekmovalec ni nastopal v Planici med letoma 2015 in 2025."
 
 
     return render_template(
         "statistika.html",
         rezultat=rezultat,
         sporocilo=sporocilo,
-        graf=graf
+        graf=graf,
+        izbrani_tekmovalec_id=tekmovalec_id,
+        **moznosti
     )
 
 
@@ -373,17 +449,18 @@ def stran_statistika():
 def drzava():
 
     tekmovalci = None
+    moznosti = moznosti_izbire()
+    izbrana_drzava = request.values.get("drzava", "").strip()
 
-    if request.method == "POST":
-
-        drzava = request.form["drzava"]
-
-        tekmovalci = tekmovalci_drzava(drzava)
+    if izbrana_drzava:
+        tekmovalci = tekmovalci_drzava(izbrana_drzava)
 
 
     return render_template(
         "drzava.html",
-        tekmovalci=tekmovalci
+        tekmovalci=tekmovalci,
+        izbrana_drzava=izbrana_drzava,
+        **moznosti
     )
     
     

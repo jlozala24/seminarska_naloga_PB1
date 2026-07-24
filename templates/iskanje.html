@@ -11,10 +11,10 @@ Iskanje rezultatov
 <h1>Iskanje rezultatov</h1>
 
 <p>
-Izberi leto tekmovanja in vnesi ime ter priimek tekmovalca.
+Izberi leto tekmovanja ter tekmovalca.
 </p>
 
-<form method="POST">
+<form method="GET">
 
 <p><strong>Leto:</strong></p>
 
@@ -22,38 +22,29 @@ Izberi leto tekmovanja in vnesi ime ter priimek tekmovalca.
 
 <option value="">Izberi leto</option>
 
-<option>2015</option>
-<option>2016</option>
-<option>2017</option>
-<option>2018</option>
-<option>2019</option>
-<option>2021</option>
-<option>2022</option>
-<option>2023</option>
-<option>2024</option>
-<option>2025</option>
+{% for leto in leta %}
+<option value="{{ leto }}" {% if izbrano_leto|string == leto|string %}selected{% endif %}>
+{{ leto }}
+</option>
+{% endfor %}
 
 </select>
 
 <br><br>
 
-<p><strong>Ime:</strong></p>
+<p><strong>Ime in priimek:</strong></p>
 
-<input
-type="text"
-name="ime"
-placeholder="Ime tekmovalca"
-required>
-
-<br><br>
-
-<p><strong>Priimek:</strong></p>
-
-<input
-type="text"
-name="priimek"
-placeholder="Priimek tekmovalca"
-required>
+<select name="tekmovalec_id" required>
+<option value="">Izberi tekmovalca</option>
+{% for tekmovalec in tekmovalci %}
+<option
+value="{{ tekmovalec['id'] }}"
+{% if izbrani_tekmovalec_id == tekmovalec["id"] %}selected{% endif %}
+>
+{{ tekmovalec["ime"] }} {{ tekmovalec["priimek"] }}
+</option>
+{% endfor %}
+</select>
 
 <br><br>
 
@@ -100,7 +91,7 @@ Poišči rezultat
 
 </div>
 
-{% elif rezultat is not none %}
+{% elif iskano %}
 
 <div class="card">
 

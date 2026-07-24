@@ -13,11 +13,18 @@ Tekmovalci po državi
 <h2>Tekmovalci izbrane države</h2>
 
 
-<form method="POST">
+<form method="GET">
 
-<label>Država:</label>
+<label for="drzava">Država:</label>
 
-<input name="drzava">
+<select id="drzava" name="drzava" required>
+<option value="">Izberi državo</option>
+{% for drzava in drzave %}
+<option value="{{ drzava }}" {% if izbrana_drzava == drzava %}selected{% endif %}>
+{{ drzava }}
+</option>
+{% endfor %}
+</select>
 
 
 <button>
@@ -50,11 +57,32 @@ Prikaži
 
 <tr>
 
-<td>{{ t["ime"] }}</td>
+<td>
+<a
+class="povezava-v-tabeli"
+href="{{ url_for('profil', tekmovalec_id=t['tekmovalec_id']) }}"
+>
+{{ t["ime"] }}
+</a>
+</td>
 
-<td>{{ t["priimek"] }}</td>
+<td>
+<a
+class="povezava-v-tabeli"
+href="{{ url_for('profil', tekmovalec_id=t['tekmovalec_id']) }}"
+>
+{{ t["priimek"] }}
+</a>
+</td>
 
-<td>{{ t["drzava"] }}</td>
+<td>
+<a
+class="povezava-v-tabeli"
+href="{{ url_for('drzava', drzava=t['drzava']) }}"
+>
+{{ t["drzava"] }}
+</a>
+</td>
 
 
 </tr>

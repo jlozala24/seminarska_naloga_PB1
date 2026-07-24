@@ -14,7 +14,7 @@ Lestvica
 Izberi leto tekmovanja in prikaži končno razvrstitev.
 </p>
 
-<form method="POST">
+<form method="GET">
 
 <p><strong>Leto:</strong></p>
 
@@ -22,16 +22,11 @@ Izberi leto tekmovanja in prikaži končno razvrstitev.
 
 <option value="">Izberi leto</option>
 
-<option>2015</option>
-<option>2016</option>
-<option>2017</option>
-<option>2018</option>
-<option>2019</option>
-<option>2021</option>
-<option>2022</option>
-<option>2023</option>
-<option>2024</option>
-<option>2025</option>
+{% for mozno_leto in leta %}
+<option value="{{ mozno_leto }}" {% if leto|string == mozno_leto|string %}selected{% endif %}>
+{{ mozno_leto }}
+</option>
+{% endfor %}
 
 </select>
 
@@ -73,11 +68,32 @@ Lestvica za leto {{ leto }}
 
 <td>{{ r["mesto"] }}</td>
 
-<td>{{ r["ime"] }}</td>
+<td>
+<a
+class="povezava-v-tabeli"
+href="{{ url_for('profil', tekmovalec_id=r['tekmovalec_id']) }}"
+>
+{{ r["ime"] }}
+</a>
+</td>
 
-<td>{{ r["priimek"] }}</td>
+<td>
+<a
+class="povezava-v-tabeli"
+href="{{ url_for('profil', tekmovalec_id=r['tekmovalec_id']) }}"
+>
+{{ r["priimek"] }}
+</a>
+</td>
 
-<td>{{ r["drzava"] }}</td>
+<td>
+<a
+class="povezava-v-tabeli"
+href="{{ url_for('drzava', drzava=r['drzava']) }}"
+>
+{{ r["drzava"] }}
+</a>
+</td>
 
 <td>{{ r["skok_1"] }} m</td>
 

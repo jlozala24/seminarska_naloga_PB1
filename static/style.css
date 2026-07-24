@@ -259,6 +259,25 @@ tr:hover {
 
 }
 
+.povezava-v-tabeli {
+
+    color:#0f527e;
+
+    font-weight:bold;
+
+    text-decoration:none;
+
+}
+
+.povezava-v-tabeli:hover,
+.povezava-v-tabeli:focus {
+
+    color:#082b4c;
+
+    text-decoration:underline;
+
+}
+
 
 
 /* =========================

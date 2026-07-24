@@ -8,8 +8,6 @@ conn = sqlite3.connect("planica.db")
 cur = conn.cursor()
 
 # Izbriši stare tabele, če že obstajajo
-cur.execute("DROP TABLE IF EXISTS komentarji")
-cur.execute("DROP TABLE IF EXISTS uporabniki")
 cur.execute("DROP TABLE IF EXISTS rezultati")
 cur.execute("DROP TABLE IF EXISTS tekmovalci")
 

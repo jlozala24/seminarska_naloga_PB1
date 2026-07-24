@@ -36,7 +36,7 @@ Izberi leto tekmovanja ter tekmovalca.
 
 <select name="tekmovalec_id" required>
 <option value="">Izberi tekmovalca</option>
-{% for tekmovalec in tekmovalci %}
+{% for tekmovalec in tekmovalci_za_izbiro %}
 <option
 value="{{ tekmovalec['id'] }}"
 {% if izbrani_tekmovalec_id == tekmovalec["id"] %}selected{% endif %}

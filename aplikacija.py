@@ -75,7 +75,7 @@ def moznosti_izbire():
 
     return {
         "leta": leta,
-        "tekmovalci": tekmovalci,
+        "tekmovalci_za_izbiro": tekmovalci,
         "drzave": drzave
     }
 

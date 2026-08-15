@@ -73,7 +73,8 @@ for datoteka in sorted(glob.glob("csv/planica_*.csv")):
         drzava = str(vrstica["Drzava"]).strip()
 
         # Dodaj tekmovalca, če ga še ni
-        # Če je tekmovalec že dodan preskoči en id, zato vmes 30 in nato 35 namesto 30 in 31
+        # Če je tekmovalec že dodan, preskoči en ID, zato je vmes 30 in
+        # nato 35 namesto 30 in 31.
         cur.execute("""
             INSERT OR IGNORE INTO tekmovalci
             (ime, priimek, drzava)

@@ -318,6 +318,7 @@ def zmagovalci():
 # UPORABNIKI
 # -------------------------------------------------
 
+
 def dodaj_uporabnika(uporabnisko_ime, geslo):
     """
     Doda novega uporabnika v bazo.

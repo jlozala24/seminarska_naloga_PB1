@@ -104,13 +104,11 @@ def profil():
         ""
     ).strip()
 
-
     if tekmovalec_id is not None:
 
         rezultati = model.profil_tekmovalca(
             tekmovalec_id=tekmovalec_id
         )
-
 
     elif ime and priimek:
 
@@ -118,7 +116,6 @@ def profil():
             ime=ime,
             priimek=priimek
         )
-
 
     if (tekmovalec_id is not None
             or (ime and priimek)):
@@ -129,7 +126,6 @@ def profil():
                 "Izbrani tekmovalec ni nastopal "
                 "v Planici med letoma 2015 in 2025."
             )
-
 
     return render_template(
         "profil.html",
@@ -158,7 +154,6 @@ def stran_statistika():
         type=int
     )
 
-
     if tekmovalec_id is not None:
 
         tekmovalec = model.tekmovalec_po_id(
@@ -177,14 +172,12 @@ def stran_statistika():
                 tekmovalec["priimek"]
             )
 
-
             if rezultat[0] == 0:
 
                 sporocilo = (
                     "Izbrani tekmovalec ni nastopal "
                     "v Planici med letoma 2015 in 2025."
                 )
-
 
     return render_template(
         "statistika.html",
@@ -194,10 +187,11 @@ def stran_statistika():
         izbrani_tekmovalec_id=tekmovalec_id,
         **moznosti
     )
-    
+
     # -------------------------------------------------
 # DRŽAVA
 # -------------------------------------------------
+
 
 @app.route("/drzava", methods=["GET", "POST"])
 def drzava():
@@ -211,13 +205,11 @@ def drzava():
         ""
     ).strip()
 
-
     if izbrana_drzava:
 
         tekmovalci = model.tekmovalci_drzava(
             izbrana_drzava
         )
-
 
     return render_template(
         "drzava.html",
@@ -261,12 +253,10 @@ def registracija():
             "geslo"
         ]
 
-
         uspeh = model.dodaj_uporabnika(
             uporabnisko_ime,
             geslo
         )
-
 
         if uspeh:
 
@@ -279,7 +269,6 @@ def registracija():
             sporocilo = (
                 "Uporabniško ime že obstaja."
             )
-
 
     return render_template(
         "registracija.html",
@@ -296,7 +285,6 @@ def prijava():
 
     sporocilo = ""
 
-
     if request.method == "POST":
 
         uporabnisko_ime = request.form[
@@ -307,12 +295,10 @@ def prijava():
             "geslo"
         ]
 
-
         uporabnik = model.preveri_uporabnika(
             uporabnisko_ime,
             geslo
         )
-
 
         if uporabnik:
 
@@ -326,14 +312,12 @@ def prijava():
 
             return redirect("/forum")
 
-
         else:
 
             sporocilo = (
                 "Napačno uporabniško ime "
                 "ali geslo."
             )
-
 
     return render_template(
         "prijava.html",
@@ -352,16 +336,13 @@ def forum():
 
         return redirect("/prijava")
 
-
     sporocilo = ""
-
 
     if request.method == "POST":
 
         komentar = request.form[
             "vsebina"
         ].strip()
-
 
         if komentar:
 
@@ -374,9 +355,7 @@ def forum():
                 "Komentar dodan."
             )
 
-
     komentarji = model.pridobi_komentarje()
-
 
     return render_template(
         "forum.html",

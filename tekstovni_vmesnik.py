@@ -1,7 +1,8 @@
 import sqlite3
 
-# OPOMBA: VSI REZULTATI SO 2015-2025 BREZ LETA 2020, SAJ JE BILO 
+# OPOMBA: VSI REZULTATI SO 2015-2025 BREZ LETA 2020, SAJ JE BILO
 # TEKMOVANJE, ZARADI KORONE, ODPOVEDANO
+
 
 def povezava_baza():
     conn = sqlite3.connect("planica.db")
@@ -12,16 +13,16 @@ def povezava_baza():
 def poisci_tekmovalca():
     """Funkcija glede na ustvarjeno bazo podatkov poišče informacije
         o izbranem tekmovalecu."""
-        
+
     leto = input("Vnesi leto: ")
     ime = input("Vnesi ime: ").strip()
     priimek = input("Vnesi priimek: ").strip()
-    
+
     conn = povezava_baza()
     cur = conn.cursor()
 
     cur.execute("""
-    SELECT 
+    SELECT
         t.ime,
         t.priimek,
         t.drzava,
@@ -35,7 +36,7 @@ def poisci_tekmovalca():
     AND LOWER(t.ime) = LOWER(?)
     AND LOWER(t.priimek) = LOWER(?)
     """,
-    (leto, ime, priimek))
+                (leto, ime, priimek))
 
     rezultat = cur.fetchone()
 
@@ -53,17 +54,19 @@ def poisci_tekmovalca():
     conn.close()
 
 # 2. Funkcija za izpis celotne lestvice
+
+
 def lestvica_leto():
     """Glede na vnešeno letnico, funkcija vrne celotno končno lestvico
         rezultatov za izbrano leto."""
 
     leto = input("Vnesi leto: ")
-    
+
     conn = povezava_baza()
     cur = conn.cursor()
 
     cur.execute("""
-    SELECT 
+    SELECT
         r.mesto,
         t.ime,
         t.priimek,
@@ -94,20 +97,20 @@ def lestvica_leto():
         print("Za to leto ni podatkov.")
 
     conn.close()
-    
-    
+
+
 # 3. Prikaz nastopov posameznika
 def nastopi_tekmovalca():
     """Funkcija vrne vse nastope v Planici za izbranega tekmovalca."""
 
     ime = input("Vnesi ime: ").strip()
     priimek = input("Vnesi priimek: ").strip()
-    
+
     conn = povezava_baza()
-    cur = conn.cursor() 
+    cur = conn.cursor()
 
     cur.execute("""
-    SELECT 
+    SELECT
         r.leto,
         r.mesto,
         r.skok_1,
@@ -141,21 +144,21 @@ def nastopi_tekmovalca():
         print("Tekmovalec ni najden.")
 
     conn.close()
-    
-    
+
+
 # 4. Statistika tekmovalca
 def statistika_tekmovalca():
-    """Funkcija vrne število nastopov, najboljšo uvrstitev, povprečno 
+    """Funkcija vrne število nastopov, najboljšo uvrstitev, povprečno
         uvrstitev ter najdaljši skok med 2015-2025."""
 
     ime = input("Vnesi ime: ").strip()
     priimek = input("Vnesi priimek: ").strip()
-    
+
     conn = povezava_baza()
     cur = conn.cursor()
 
     cur.execute("""
-    SELECT 
+    SELECT
         COUNT(*),
         MIN(r.mesto),
         AVG(r.mesto),
@@ -175,7 +178,7 @@ def statistika_tekmovalca():
         print("Število nastopov:", rezultat[0])
         print("Najboljša uvrstitev:", rezultat[1])
         print("Povprečna uvrstitev:", round(rezultat[2], 2))
-        
+
         # najdaljši skok posebej izračunamo
         cur.execute("""
         SELECT MAX(skok)
@@ -206,15 +209,15 @@ def statistika_tekmovalca():
         print("Tekmovalec ni najden.")
 
     conn.close()
-    
-    
+
+
 # 5. Tekmovalci izbrane države
 def tekmovalci_drzava():
-    """Funkcija vrne vse tekmovalce, ki so v Planici zastopali 
+    """Funkcija vrne vse tekmovalce, ki so v Planici zastopali
         izbrano državo."""
 
     drzava = input("Vnesi državo (npr. SLO): ").strip()
-    
+
     conn = povezava_baza()
     cur = conn.cursor()
 
@@ -238,17 +241,17 @@ def tekmovalci_drzava():
         print("Za to državo ni tekmovalcev.")
 
     conn.close()
-    
-    
+
+
 # 6. Vsi zmagovalci planice 2015-2025
 def zmagovalci_po_letih():
     """Funkcija vrne vse zmagovalce za leta 2015-2025."""
 
     conn = povezava_baza()
     cur = conn.cursor()
-    
+
     cur.execute("""
-    SELECT 
+    SELECT
         r.leto,
         t.ime,
         t.priimek,
@@ -278,8 +281,8 @@ def zmagovalci_po_letih():
         )
 
     conn.close()
-    
-    
+
+
 # Menu
 while True:
 
@@ -300,19 +303,19 @@ while True:
 
     if izbira == "1":
         poisci_tekmovalca()
-        
+
     elif izbira == "2":
         lestvica_leto()
-        
+
     elif izbira == "3":
         nastopi_tekmovalca()
-        
+
     elif izbira == "4":
         statistika_tekmovalca()
-        
+
     elif izbira == "5":
         tekmovalci_drzava()
-        
+
     elif izbira == "6":
         zmagovalci_po_letih()
 
